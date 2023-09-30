@@ -1,0 +1,40 @@
+---
+- name: show remote host
+  debug:
+    msg: "the remote server is {{ ansible_host }}"
+- name: create build dir if not exists
+  file:
+    path: "{{ build_root_abspath }}"
+    state: directory
+- name: git clone
+  git:
+    repo: "git@github.com:yiidtw/ironman2023-demo-fastapi.git"
+    dest: "{{ build_root_abspath }}"
+    remote: "origin"
+    version: "main"
+- name: build docker
+  community.docker.docker_image:
+    name: ironman2023-fastapi
+    build:
+      path: "{{ build_root_abspath }}" 
+    tag: "{{ demobackend_version }}"
+    source: build
+- name: run docker
+  docker_container:
+    name: demobackend
+    state: started
+    recreate: yes
+    image: "ironman2023-fastapi:{{ demobackend_version }}"
+    ports:
+      - "8080:8080"
+- name: wait for the api ready
+  wait_for:
+    host: 0.0.0.0
+    port: 8080
+    delay: 10
+- name: testing api locally
+  shell: "curl -k localhost:8080"
+  register: reg_curl_result
+- name: show curl result
+  debug:
+    msg: "{{ reg_curl_result.stdout }}"

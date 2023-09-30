@@ -1,0 +1,7 @@
+---
+- name: show remote host
+  debug:
+    msg: "the remote server is {{ ansible_host }}"
+- name: show vars of this playbook
+  debug:
+    msg: "{{ greeting }}"

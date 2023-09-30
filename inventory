@@ -1,0 +1,5 @@
+all:
+  hosts:
+    staging:
+      ansible_host: ubuntu-staging-env
+      ansible_user: ubuntu

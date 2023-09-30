@@ -1,0 +1,9 @@
+---
+- name: main task
+  hosts: staging
+  vars:
+    build_root_abspath: "/home/ubuntu/build/{{ ansible_date_time.iso8601_basic_short }}"
+    demobackend_version: "latest"
+  roles:
+    # - role: hello_world
+    - role: build_fastapi
