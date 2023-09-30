@@ -13,7 +13,7 @@
     remote: "origin"
     version: "main"
 - name: build docker
-  community.docker.docker_image:
+  docker_image:
     name: ironman2023-fastapi
     build:
       path: "{{ build_root_abspath }}" 
