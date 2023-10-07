@@ -2,6 +2,9 @@
 - name: show remote host
   debug:
     msg: "the remote server is {{ ansible_host }}"
+- name: show api version
+  debug:
+    msg: "{{ demobackend_version }}"
 - name: create build dir if not exists
   file:
     path: "{{ build_root_abspath }}"
